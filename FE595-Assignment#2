@@ -1,0 +1,49 @@
+def project2():
+
+    import requests as req
+    import os
+    #os.getcwd()
+
+    data = []
+
+    for _ in range(50):
+
+        resp = req.get("http://3.95.249.159:8000/random_company")
+
+        resp.status_code
+
+        s = resp.text.split("<li>")
+
+        name = [i for i in s if 'Name: ' in i]
+        purpose = [i for i in s if 'Purpose: ' in i]
+
+        #print(name, purpose)
+
+        #print(s[s.find('Name: ')+len('Name: '):s.rfind('CEO: ')])
+
+        name = name[0]
+        name2 = name[name.find('Name: ')+len('Name: '):name.rfind('CEO: ')]
+        name3 = name2.replace("<li>", "")
+        split_string = name3.split("</li>", 1)
+        name4 = split_string[0]
+        #name4 = name3.replace("</li>", "")
+
+        purpose = purpose[0]
+        purpose2 = purpose[purpose.find('Purpose: ')+len('Purpose: '):purpose.rfind('Investment')]
+        purpose3 = purpose2.replace("<li>", "")
+        split_string = purpose3.split("</li>", 1)
+        purpose4 = split_string[0]
+        #purpose4 = purpose3.replace("</li>", "")
+        #print(name4, purpose4, sep='\n')
+
+        data.append(name4)
+        data.append(purpose4)
+
+    print(data)
+    with open("webscraping.txt", "w") as output:
+        output.write(str(data))
+
+    #data.to_csv(r'C:\Users\shira\Desktop\"Stevens Fall 2020"\"FE 595"\export_dataframe.csv', index=False)
+
+if __name__ == "__main__":
+    project2()
